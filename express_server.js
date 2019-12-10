@@ -27,12 +27,20 @@ app.get("/hello", (req, res) => {
 
 
 app.get("/urls", (req, res) => {
-  let templateVars = {
-    urls: urlDatabase
-  
-  };
-  
-
+  let templateVars = {urls: urlDatabase};
   res.render("urls_index", templateVars);
+  // res.render("urls_index", urlDatabase);
+});
+
+app.get("/urls", (req, res) => {
+  let templateVars = {urls: urlDatabase};
+  res.render("urls_index", templateVars);
+  // res.render("urls_index", urlDatabase);
+});
+
+app.get("/urls/:shortURL", (req, res) => {
+  let templateVars = {shortURL: req.params.shortURL,
+                      longURL: urlDatabase[req.params.shortURL]};
+  res.render("urls_show", templateVars);
   // res.render("urls_index", urlDatabase);
 });
