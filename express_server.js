@@ -21,6 +21,7 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
@@ -41,7 +42,8 @@ app.get("/hello", (req, res) => {
 app.get("/urls/new", (req,res)=>{ 
   res.render("urls_new");
 })
-// the form in the urls/new generates 
+// the form in the urls/new generates new short code and store in databaseURL
+// and sends the browser to the website typed in the form 
 app.post("/urls" ,(req,res) => {
   longURL = req.body.longURL;
   if(longURL.indexOf("http") == 0 ) {
@@ -58,7 +60,7 @@ res.redirect(longURL);
 })
 
 
-
+// list out all the urls ------------------------
 app.get("/urls", (req, res) => {
   let templateVars = {urls: urlDatabase};
   res.render("urls_index", templateVars);
@@ -69,7 +71,7 @@ app.get("/urls", (req, res) => {
 
 
 
-
+// Show the URL information ------------------------
 app.get("/urls/:shortURL", (req, res) => {
   let templateVars = {shortURL: req.params.shortURL,
                       longURL: urlDatabase[req.params.shortURL]};
@@ -77,7 +79,7 @@ app.get("/urls/:shortURL", (req, res) => {
   // res.render("urls_index", urlDatabase);
 });
 
-
+// redirect to short URL in u/shortURL
 app.get("/u/:shortURL", (req, res) => {
   longURL= urlDatabase[req.params.shortURL];
   res.redirect(longURL);
