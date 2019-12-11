@@ -68,7 +68,10 @@ app.get("/urls", (req, res) => {
   // res.render("urls_index", urlDatabase);
 });
 
-
+app.post("/urls/:shortURL/delete", (req,res) => {
+  delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls");
+})
 
 
 // Show the URL information ------------------------
