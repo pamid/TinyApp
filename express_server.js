@@ -12,7 +12,6 @@ function generateRandomString(outputLength) {
   for (let i = 0; i < outputLength; i ++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
-  console.log('six digit code: ', result);
   return result;
 }
 
@@ -44,9 +43,21 @@ app.get("/urls/new", (req,res)=>{
 })
 // the form in the urls/new generates 
 app.post("/urls" ,(req,res) => {
-  console.log(req.body);
-  res.send(req.body.longURL);
+  longURL = req.body.longURL;
+  if(longURL.indexOf("http") == 0 ) {
+      longURL = req.body.longURL;
+  } else {   
+      longURL = "http://" + req.body.longURL;
+  }
+  if (!Object.values(urlDatabase).includes(longURL)) {
+    shortURL = generateRandomString(6); 
+    urlDatabase[shortURL] = longURL;
+  }
+res.redirect(longURL);
+    
 })
+
+
 
 app.get("/urls", (req, res) => {
   let templateVars = {urls: urlDatabase};
@@ -66,3 +77,9 @@ app.get("/urls/:shortURL", (req, res) => {
   // res.render("urls_index", urlDatabase);
 });
 
+
+app.get("/u/:shortURL", (req, res) => {
+  longURL= urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
+  // res.render("urls_index", urlDatabase);
+});
