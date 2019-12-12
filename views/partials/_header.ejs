@@ -11,19 +11,13 @@
           <a class="nav-item nav-link" href="/register">Register</a>
         </div>
       </div>
-      <%if (!username){ %> 
-        <form class="form-inline" action="/login" method="POST">
-          <div class="form-group mb-2">
-            <input class="form-control" type="text" name="username" placeholder="Username" >
-          </div>
-          <div class="form-group mb-2">
-            <button type="submit" class="btn btn-outline-dark">Login</button>
-          </div>
-        </form>
+
+      <%if (!locals.userobj){ %> 
+        <a class="nav-item nav-link" href="/login">Log In</a>
       <%} else {%>
         <form class="form-inline" action="/logout" method="POST">
           <div class="form-group mb-2">
-              <label class="my-1 mr-2" for="inlineFormCustomSelectPref"> Logged in as:  <%=username%> </label>
+              <label class="my-1 mr-2" for="inlineFormCustomSelectPref"> Logged in as:  <%=locals.userobj.email%> </label>
           </div>
           <div class="form-group mb-2">
             <button type="submit" class="btn btn-secondary">Logout</button>
