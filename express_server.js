@@ -125,10 +125,9 @@ app.post("/login", (req,res)=>{
   email = req.body.email;
   password = req.body.password;
   id = userExistByEmail(email);
-  console.log(id)
   if (!id) {
     res.send("403 Error : User email is not registered")
-    
+
   } else {
     if (users[id].password === password){
       res.cookie("user_id",id)
@@ -182,11 +181,18 @@ app.post("/register", (req,res)=>{
   password = req.body.password;
   id = generateRandomString(10);
   
-  userobj = {id : id,
+  id = userExistByEmail(email);
+  if (!id) {
+    res.send("400 Error : User email is already registered")
+
+  } else if (email ==="" || password ==="") {
+    res.send("400 Error : Email or Password is empty")
+  } else {  
+    userobj = {id : id,
               email : email,
               password : password};
-  
-  users[id] = userobj;
-  res.cookie("user_id",id);
-  res.redirect('/urls')
+    users[id] = userobj;
+      res.cookie("user_id",id)
+      res.redirect('/urls')
+  } 
 })
